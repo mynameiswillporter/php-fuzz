@@ -1,0 +1,50 @@
+---
+
+- name: Setup PHP Source and AFL for Fuzzing
+  connection: ansible.netcommon.network_cli
+  gather_facts: false
+  hosts: all
+  vars:
+    php_src_folder: /root/php-src
+    php_src_repo: https://github.com/php/php-src.git
+  tasks:
+
+    - name: Install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: Install screen
+      apt:
+        name: screen
+        state: present
+
+    - name: Install American Fuzzy Lop
+      apt:
+        name: afl
+        state: present
+
+    - name: Install PHP build dependencies
+      apt:
+        pkg:
+          - pkg-config
+          - build-essential
+          - autoconf
+          - bison
+          - re2c
+          - libxml2-dev
+          - libsqlite3-dev
+        state: present
+        update_cache: true
+
+    - name: Clone PHP source
+      git:
+        repo: {{ php_src_repo }}
+        dest: "{{ php_src_folder }}"
+        update: yes
+
+    - name: Run buildconf
+      command: ./buildconf
+      args:
+        chdir: "{{ php_src_folder }}"

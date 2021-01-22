@@ -45,3 +45,14 @@ afl-fuzz -i serialized_data -o basic_fuzz -m none -- ./sapi/cli/php -r 'unserial
 # Grepping for interesting crashes
 for FILE in $(ls id*); do cat $FILE | ../../sapi/cli/php -r "unserialize(file_get_contents('php://stdin'));" 2>&1 | grep -E "SUMMARY|ERROR" | grep -v "LargeMmap" && echo $FILE; done
 ```
+
+## Setup your ansible control server
+```
+git clone https://github.com/mynameiswillporter/php-fuzz.git
+cd php-fuzz
+python3 -m venv venv
+. venv/bin/activate
+pip install ansible
+```
+
+## Use your ansible control server to install to another server
