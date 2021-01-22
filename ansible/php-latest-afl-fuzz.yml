@@ -64,4 +64,17 @@
       args:
         chdir: "{{ php_src_folder }}"
 
-    
+    - name: Replace php_cli.c
+      shell: "mv sapi/cli/php_cli.c.new sapi/cli/php_cli.c"
+      args:
+        chdir: "{{ php_src_folder }}"
+
+    - name: Configure PHP
+      shell: "CC=afl-clang-fast CXX=afl-clang-fast++ ./configure"
+      args:
+        chdir: "{{ php_src_folder }}"
+
+    - name: Make PHP
+      shell: "AFL_USE_ASAN=1 make"
+      args:
+        chdir: "{{ php_src_folder }}"
