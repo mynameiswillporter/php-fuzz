@@ -51,4 +51,15 @@
 
     - name: Get AFL Injection Location
       shell: "grep -n \"case PHP_MODE_CLI_DIRECT:\" sapi/cli/php_cli.c | cut -f1 -d:"
-      register: linenum
+      args:
+        chdir: "{{ php_src_folder }}"
+      register: injection_pre_loc
+
+    - name: Increment injection point
+      shell: "$(({{ injection_pre_loc.stdout }} + 2))"
+      register: injection_loc
+
+    - name: Write injection loc
+      shell: echo {{ injection_loc.stdout }} > injection_loc
+      args:
+        chdir: "{{ php_src_folder }}"
