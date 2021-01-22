@@ -51,6 +51,6 @@
 
     - name: Get AFL Injection Location
       set_fact:
-        injection_line_num="{{ grep -n "case PHP_MODE_CLI_DIRECT:" sapi/cli/php_cli.c | cut -f1 -d: }}"
+        injection_line_num="{{ grep -n \"case PHP_MODE_CLI_DIRECT:\" sapi/cli/php_cli.c | cut -f1 -d: }}"
       args:
         chdir: "{{ php_src_folder }}"
