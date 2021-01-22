@@ -50,5 +50,5 @@
         chdir: "{{ php_src_folder }}"
 
     - name: Get AFL Injection Location
-      shell: grep -n "case PHP_MODE_CLI_DIRECT:" sapi/cli/php_cli.c | cut -f1 -d:
+      shell: "grep -n \"case PHP_MODE_CLI_DIRECT:\" sapi/cli/php_cli.c | cut -f1 -d:"
       register: linenum
