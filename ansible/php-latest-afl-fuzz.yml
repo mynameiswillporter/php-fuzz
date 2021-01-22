@@ -56,10 +56,12 @@
       register: injection_pre_loc
 
     - name: Increment injection point
-      shell: "$(({{ injection_pre_loc.stdout }} + 2))"
+      shell: "echo $(({{ injection_pre_loc.stdout }} + 2))"
       register: injection_loc
 
-    - name: Write injection loc
-      shell: echo {{ injection_loc.stdout }} > injection_loc
+    - name: Inject AFL into PHP
+      shell: "awk -v n={{ injection_loc.stdout }} -v s=\"\t\t\t__AFL_INIT();\n\t\t\twhile (__AFL_LOOP(100000))\" 'NR == n {print s} {print}' sapi/cli/php_cli.c > sapi/cli/php_cli.c.new"
       args:
         chdir: "{{ php_src_folder }}"
+
+    
