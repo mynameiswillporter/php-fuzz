@@ -62,5 +62,5 @@ pip install ansible
 Make sure you have your virtual environment with ansible activated and are in
 this project's main directory.
 ```
-ansible-playbook ansible/php-latest-afl-fuzz.yml
+ansible-playbook ansible/php-latest-afl-fuzz.yml -i localhost -e ansible_python_interpreter=/usr/bin/python
 ```
