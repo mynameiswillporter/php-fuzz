@@ -40,7 +40,7 @@
 
     - name: Clone PHP source
       git:
-        repo: {{ php_src_repo }}
+        repo: "{{ php_src_repo }}"
         dest: "{{ php_src_folder }}"
         update: yes
 

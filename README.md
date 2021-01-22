@@ -47,7 +47,10 @@ for FILE in $(ls id*); do cat $FILE | ../../sapi/cli/php -r "unserialize(file_ge
 ```
 
 ## Setup your ansible control server
+The following steps will clone this repository, create a virtual environment,
+and install ansible via pip.
 ```
+apt-get install -y python3-venv
 git clone https://github.com/mynameiswillporter/php-fuzz.git
 cd php-fuzz
 python3 -m venv venv
@@ -55,4 +58,9 @@ python3 -m venv venv
 pip install ansible
 ```
 
-## Use your ansible control server to install to another server
+## Use your ansible control server to install to localhost
+Make sure you have your virtual environment with ansible activated and are in
+this project's main directory.
+```
+ansible-playbook ansible/php-latest-afl-fuzz.yml
+```
