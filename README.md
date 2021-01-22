@@ -1,5 +1,28 @@
 # php-fuzz
+A Repository to enable simple fuzzing of PHP Source code. Based on this
+[article](https://www.tripwire.com/state-of-security/vert/fuzzing-php-for-fun-and-profit/).
 
+## Setup your ansible control server
+The following steps will clone this repository, create a virtual environment,
+and install ansible via pip.
+```
+apt-get install -y python3-venv
+git clone https://github.com/mynameiswillporter/php-fuzz.git
+cd php-fuzz
+python3 -m venv venv
+. venv/bin/activate
+pip install ansible
+```
+
+## Use your ansible control server to install to localhost
+Make sure you have your virtual environment with ansible activated and are in
+this project's main directory.
+```
+ansible-playbook ansible/php-latest-afl-fuzz.yml -i localhost -e ansible_python_interpreter=/usr/bin/python
+```
+
+
+## Manual steps if you don't use ansible
 ```
 # Based on https://www.tripwire.com/state-of-security/vert/fuzzing-php-for-fun-and-profit/
 
@@ -44,23 +67,4 @@ afl-fuzz -i serialized_data -o basic_fuzz -m none -- ./sapi/cli/php -r 'unserial
 
 # Grepping for interesting crashes
 for FILE in $(ls id*); do cat $FILE | ../../sapi/cli/php -r "unserialize(file_get_contents('php://stdin'));" 2>&1 | grep -E "SUMMARY|ERROR" | grep -v "LargeMmap" && echo $FILE; done
-```
-
-## Setup your ansible control server
-The following steps will clone this repository, create a virtual environment,
-and install ansible via pip.
-```
-apt-get install -y python3-venv
-git clone https://github.com/mynameiswillporter/php-fuzz.git
-cd php-fuzz
-python3 -m venv venv
-. venv/bin/activate
-pip install ansible
-```
-
-## Use your ansible control server to install to localhost
-Make sure you have your virtual environment with ansible activated and are in
-this project's main directory.
-```
-ansible-playbook ansible/php-latest-afl-fuzz.yml -i localhost -e ansible_python_interpreter=/usr/bin/python
 ```
