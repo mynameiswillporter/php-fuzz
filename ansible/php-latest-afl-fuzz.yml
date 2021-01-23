@@ -35,6 +35,7 @@
           - re2c
           - libxml2-dev
           - libsqlite3-dev
+          - libbz2-dev
         state: present
         update_cache: true
 
@@ -70,7 +71,7 @@
         chdir: "{{ php_src_folder }}"
 
     - name: Configure PHP
-      shell: "CC=afl-clang-fast CXX=afl-clang-fast++ ./configure"
+      shell: "CC=afl-clang-fast CXX=afl-clang-fast++ ./configure --with-bz2"
       args:
         chdir: "{{ php_src_folder }}"
 
