@@ -71,7 +71,7 @@
         chdir: "{{ php_src_folder }}"
 
     - name: Configure PHP
-      shell: "CC=afl-clang-fast CXX=afl-clang-fast++ ./configure --with-bz2"
+      shell: "CC=afl-clang-fast CXX=afl-clang-fast++ ./configure --with-bz2 --enable-exif"
       args:
         chdir: "{{ php_src_folder }}"
 

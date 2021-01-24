@@ -1,0 +1,7 @@
+git clone https://github.com/ianare/exif-samples.git
+
+mkdir -p php-src/exif/jpegs
+cp exif-samples/jpg/*.jpg php-src/exif/jpegs
+
+cd php-src
+afl-fuzz -f afl.jpg -i exif/jpegs -o exif_fuzz -m none -- ./sapi/cli/php -r 'exif_read_data("afl.jpg");'
