@@ -1,0 +1,1 @@
+ afl-fuzz -i hash_corpus/ -o hash_fuzz -m none -- ./sapi/cli/php -r '$s = file_get_contents("php://stdin"); foreach (hash_algos() as $algo) { hash($algo, $s, true); hash($algo, $s, false); }'
